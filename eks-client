@@ -1,0 +1,49 @@
+#!/bin/bash
+
+  ################################
+  #
+  # Deploy all eks desktop tools
+  #       kubectl, aws-iam-authenticator, eksctl
+  # Connect to the eks cluster
+  ###############################################
+
+#clear screen
+clear
+echo " "
+echo " "
+#Install kubectl Kubernetes cluster admin client
+###############################################################
+curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/linux/amd64/kubectl; chmod +x kubectl;cp kubectl /usr/bin/
+echo " "
+echo " "
+#Install aws-iam-authnticator
+###############################################################
+curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/linux/amd64/aws-iam-authenticator; chmod +x aws-iam-authenticator;cp aws-iam-authenticator /usr/bin
+
+echo " "
+echo " "
+#Install EKS Cluster manager aws tool
+###############################################################
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp; cd /tmp; chmod +x eksctl; cp eksctl /usr/bin
+
+#clear
+################
+clear
+echo " "
+echo " "
+
+#get the cluster EKS name
+##############################3
+#echo "Please provide eks cluster name to connect to and press ENTER:"
+#echo "$(tput setaf 1)Please provide eks cluster name to connect to and press ENTER: $(tput setab 7)and white background$(tput sgr 0)"
+#echo "$(tput setaf 1)Please provide eks cluster name to connect to and press ENTER:$"(tput sgr 0)
+echo "$(tput setaf 1)Please provide eks cluster name to connect to and press ENTER:"$(tput sgr 0)
+#echo -e "\e[31m$Please provide eks cluster name to connect to and press ENTER:\e[0m"
+read eksname
+aws eks --region us-east-1 update-kubeconfig --name $eksname
+echo " "
+echo " "
+#You are logged in as
+#############################
+echo "you are now logged in as :"
+aws sts get-caller-identity
