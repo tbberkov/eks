@@ -1,0 +1,21 @@
+#!/bin/bash
+ 
+                  ###############################################
+                  #
+                  #  Deploy 20 Docker containers web servers
+                  #   
+                  #
+                  ###############################################
+ 
+ 
+#clear
+clear
+ 
+ 
+#Create/deploy 20 containers
+##########################################
+for n in {800..820}
+do
+   docker run --name Web${n} -d -p ${n}:80 nginx:latest
+   
+ done
